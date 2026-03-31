@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>April 10?</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Press Start 2P', monospace;
+      background: #0f0f1a;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .container {
+      text-align: center;
+      max-width: 90%;
+      width: 420px;
+      padding: 20px;
+      border: 4px solid #fff;
+      background: #1a1a2e;
+      box-shadow: 0 0 20px #ff77ff;
+    }
+
+    .hidden { display: none; }
+
+    button {
+      padding: 12px;
+      margin: 12px;
+      border: 3px solid #fff;
+      background: #222;
+      color: #fff;
+      font-family: 'Press Start 2P', monospace;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #ff77ff;
+      color: #000;
+    }
+
+    .yes { background: #00ffcc; color: #000; }
+    .no { position: absolute; }
+
+    .press-start {
+      animation: blink 1s infinite;
+      margin-top: 20px;
+    }
+
+    @keyframes blink {
+      0%,100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .pixel-heart {
+      position: absolute;
+      animation: floatUp 4s linear infinite;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(100vh); opacity: 0; }
+      50% { opacity: 1; }
+      100% { transform: translateY(-10vh); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- sounds -->
+<audio id="bgm" loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="clickSound">
+  <source src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_12b0c7443c.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="hoverSound">
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_6cbe6c4c42.mp3" type="audio/mpeg">
+</audio>
+
+<!-- intro screen -->
+<div class="container" id="page0" onclick="startGame()">
+  <h2>APRIL 10.EXE</h2>
+  <p class="press-start">PRESS START</p>
+</div>
+
+<div class="container hidden" id="page1">
+  <h2>hi... this might be random</h2>
+  <button onclick="playClick(); nextPage(2)">[ start ]</button>
+</div>
+
+<div class="container hidden" id="page2">
+  <p>> thinking...</p>
+  <p>> what if...</p>
+  <p>> we go out...</p>
+  <p>> like a real date? :]</p>
+  <button onclick="playClick(); nextPage(3)">[ continue ]</button>
+</div>
+
+<div class="container hidden" id="page3">
+  <h2>APRIL 10</h2>
+  <p>MENDOKORO / KODAWARI</p>
+  <p>MY TREAT</p>
+  <p>JUST SHOW UP</p>
+  <button class="yes" onclick="playClick(); yesClicked()">[ YES ]</button>
+  <button class="no" id="noBtn">[ NO ]</button>
+</div>
+
+<div class="container hidden" id="page4">
+  <h2>WAIT... REALLY?</h2>
+  <p>ok now im nervous</p>
+  <p>see u april 10 :)</p>
+  <button onclick="playClick(); nextPage(5)">[ open letter ]</button>
+</div>
+
+<div class="container hidden" id="page5">
+  <h2>LETTER</h2>
+  <p style="font-size:10px; line-height:1.6">
+  Hey Seph :P<br><br>
+  I just wanted to say I really enjoyed our date, like genuinely. Kahit na it got cut short because of your 11:59 deadline T-T I still had a really good time with you. It kinda made me wish we had more time to just talk and get to know each other better.<br><br>
+  Honestly, that’s why I’ve been thinking of planning another one… something more chill, no rushing this time :P I’d really like that, if you’re down.<br><br>
+  No pressure though!! I just wanted you to know how I felt :)
+  </p>
+</div>
+
+<script>
+  function nextPage(page) {
+    document.querySelectorAll('.container').forEach(el => el.classList.add('hidden'));
+    document.getElementById('page' + page).classList.remove('hidden');
+  }
+
+  function startGame() {
+    playClick();
+    document.getElementById('bgm').play();
+    nextPage(1);
+  }
+
+  function yesClicked() {
+    nextPage(4);
+  }
+
+  function playClick() {
+    document.getElementById('clickSound').play();
+  }
+
+  const noBtn = document.getElementById('noBtn');
+  const hoverSound = document.getElementById('hoverSound');
+
+  noBtn.addEventListener('mouseover', () => {
+    hoverSound.play();
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 50);
+    noBtn.style.left = x + 'px';
+    noBtn.style.top = y + 'px';
+  });
+
+  setInterval(() => {
+    const heart = document.createElement('div');
+    heart.classList.add('pixel-heart');
+    heart.style.left = Math.random() * window.innerWidth + 'px';
+    heart.innerHTML = '♥';
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 4000);
+  }, 600);
+</script>
+
+</body>
+</html>
